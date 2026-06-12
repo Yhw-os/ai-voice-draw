@@ -1,7 +1,7 @@
 import os
 import json
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,render_template
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -63,7 +63,7 @@ JSON输出格式：
 
 @app.route("/")
 def index():
-    return "AI语音绘图工具后端服务运行中"
+    return render_template("index.html")
 
 
 @app.route("/api/health", methods=["GET"])
