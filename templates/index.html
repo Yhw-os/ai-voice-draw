@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI语音绘图工具</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎨 AI语音绘图工具</h1>
+            <div class="status-bar">
+                <span id="mic-status" class="status-indicator">🎤 麦克风：未连接</span>
+                <span id="api-status" class="status-indicator">🔌 API：检测中...</span>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="canvas-area">
+                <canvas id="drawCanvas" width="800" height="600"></canvas>
+                <div class="canvas-hint">画布区域 800×600</div>
+            </div>
+
+            <div class="control-panel">
+                <div class="panel-section">
+                    <h2>🎙️ 语音控制</h2>
+                    <button id="btn-record" class="btn-record">
+                        <span class="btn-icon">🎤</span>
+                        <span class="btn-text">按住说话</span>
+                    </button>
+                    <div id="voice-feedback" class="voice-feedback">
+                        <p class="hint">按住上方按钮，说出绘图指令</p>
+                        <p class="examples">例如："画一个红色的圆"、"在左上角画一个蓝色矩形"</p>
+                    </div>
+                    <div id="recognized-text" class="recognized-text"></div>
+                </div>
+
+                <div class="panel-section">
+                    <h2>📋 指令记录</h2>
+                    <div id="command-log" class="command-log"></div>
+                </div>
+
+                <div class="panel-section">
+                    <h2>⚡ 快捷操作</h2>
+                    <div class="quick-actions">
+                        <button class="btn-quick" onclick="clearCanvas()">🗑️ 清空画布</button>
+                        <button class="btn-quick" onclick="undoLast()">↩️ 撤销</button>
+                        <button class="btn-quick" onclick="exportImage()">💾 导出图片</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div id="ai-response" class="ai-response">
+                <span class="ai-avatar">🤖</span>
+                <span class="ai-text">等待语音指令...</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/canvas.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/voice.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
