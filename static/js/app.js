@@ -62,6 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
 async function handleVoiceResult(text) {
     addLog(`🗣️ "${text}"`, 'pending');
     updateAIResponse('正在解析指令...');
+    
+    // 显示加载动画
+    showLoading(true);
 
     try {
         const response = await fetch('/api/parse', {
@@ -70,20 +73,19 @@ async function handleVoiceResult(text) {
             body: JSON.stringify({ text })
         });
 
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const data = await response.json();
         console.log('AI解析结果:', data);
-
-        // 执行指令
         executeCommand(data);
 
     } catch (error) {
         console.error('解析失败:', error);
         addLog(`❌ 网络错误：${error.message}`, 'error');
         updateAIResponse('网络连接失败，请检查后端服务是否运行');
+    } finally {
+        // 隐藏加载动画
+        showLoading(false);
     }
 }
 
@@ -254,4 +256,13 @@ function undoLast() {
 function exportImage() {
     engine.exportImage();
     addLog('💾 图片已导出', 'success');
+}
+/**
+ * 显示/隐藏加载动画
+ */
+function showLoading(show) {
+    const overlay = document.getElementById('loading-overlay');
+    if (overlay) {
+        overlay.classList.toggle('show', show);
+    }
 }

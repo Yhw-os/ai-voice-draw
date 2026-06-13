@@ -68,9 +68,20 @@ class CanvasEngine {
     }
 
     /**
+     * 边界检查：确保坐标在画布内
+     */
+    clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    /**
      * 绘制圆形
      */
     drawCircle(x, y, radius, color, fill = true) {
+        // 边界检查：确保圆在画布内
+        x = this.clamp(x, radius, this.canvas.width - radius);
+        y = this.clamp(y, radius, this.canvas.height - radius);
+        
         this.ctx.beginPath();
         this.ctx.arc(x, y, radius, 0, Math.PI * 2);
         
@@ -90,6 +101,10 @@ class CanvasEngine {
      * 绘制矩形
      */
     drawRectangle(x, y, width, height, color, fill = true) {
+        // 边界检查：确保矩形在画布内
+        x = this.clamp(x, 0, this.canvas.width - width);
+        y = this.clamp(y, 0, this.canvas.height - height);
+        
         if (fill) {
             this.ctx.fillStyle = color;
             this.ctx.fillRect(x, y, width, height);
@@ -106,6 +121,12 @@ class CanvasEngine {
      * 绘制线段
      */
     drawLine(x1, y1, x2, y2, color, lineWidth = 2) {
+        // 边界检查：确保线段端点在画布内
+        x1 = this.clamp(x1, 0, this.canvas.width);
+        y1 = this.clamp(y1, 0, this.canvas.height);
+        x2 = this.clamp(x2, 0, this.canvas.width);
+        y2 = this.clamp(y2, 0, this.canvas.height);
+        
         this.ctx.beginPath();
         this.ctx.moveTo(x1, y1);
         this.ctx.lineTo(x2, y2);
@@ -120,6 +141,10 @@ class CanvasEngine {
      * 绘制三角形
      */
     drawTriangle(x, y, size, color, fill = true) {
+        // 边界检查：确保三角形在画布内
+        x = this.clamp(x, size, this.canvas.width - size);
+        y = this.clamp(y, size, this.canvas.height - size);
+        
         this.ctx.beginPath();
         this.ctx.moveTo(x, y - size);
         this.ctx.lineTo(x - size, y + size);
@@ -142,6 +167,10 @@ class CanvasEngine {
      * 绘制文字
      */
     drawText(text, x, y, color, fontSize = 20) {
+        // 边界检查：确保文字在画布内
+        x = this.clamp(x, fontSize, this.canvas.width - fontSize);
+        y = this.clamp(y, fontSize, this.canvas.height - fontSize);
+        
         this.ctx.font = `${fontSize}px Arial`;
         this.ctx.fillStyle = color;
         this.ctx.textAlign = 'center';
