@@ -9,7 +9,7 @@ class VoiceInput {
         this.isRecording = false;
         this.onResultCallback = null;
         this.onErrorCallback = null;
-        
+        this.lastStopTime = null;
         this.init();
     }
 
@@ -99,13 +99,19 @@ class VoiceInput {
     /**
      * 开始录音
      */
-    start() {
+        start() {
         if (!this.recognition) {
             alert('浏览器不支持语音识别');
             return;
         }
-        
         if (this.isRecording) return;
+        
+        // 防抖：如果3秒内刚停止过，不再启动
+        const now = Date.now();
+        if (this.lastStopTime && now - this.lastStopTime < 3000) {
+            console.log('防抖：3秒内刚停止，忽略本次启动');
+            return;
+        }
         
         try {
             this.recognition.start();
@@ -120,6 +126,7 @@ class VoiceInput {
     stop() {
         if (this.recognition && this.isRecording) {
             this.recognition.stop();
+            this.lastStopTime = Date.now();  // 记录停止时间
         }
     }
 

@@ -124,6 +124,30 @@ def parse_command():
     if not user_text:
         return jsonify({"error": "Empty text"}), 400
     
+    # 语音识别纠错：常见错误映射
+    corrections = {
+        "买一个": "画一个",
+        "买": "画",
+        "话一个": "画一个",
+        "化一个": "画一个",
+        "花一个": "画一个",
+        "在左下脚": "在左下角",
+        "在右下脚": "在右下角",
+        "在左上脚": "在左上角",
+        "在右上脚": "在右上角",
+        "圆型": "圆形",
+        "矩型": "矩形",
+        "三角型": "三角形",
+        "型": "形",
+    }
+    
+    original_text = user_text
+    for wrong, correct in corrections.items():
+        user_text = user_text.replace(wrong, correct)
+    
+    if user_text != original_text:
+        print(f"语音识别纠错: '{original_text}' -> '{user_text}'")
+    
     if not DEEPSEEK_API_KEY:
         return jsonify({"error": "DeepSeek API Key not configured"}), 500
     
