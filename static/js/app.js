@@ -418,3 +418,5 @@ function showLoading(show) {
         overlay.classList.toggle('show', show);
     }
 }
+
+// 该分支实现鲁棒性增强 - 防抖、纠错、本地解析与缓存优化
