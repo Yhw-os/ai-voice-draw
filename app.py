@@ -222,3 +222,5 @@ def parse_command():
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)
+
+// PR说明: 本分支实现支持复杂图形指令自动拆解与绘制
