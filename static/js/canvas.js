@@ -200,3 +200,5 @@ class CanvasEngine {
 
 // 全局实例
 let engine;
+
+// PR说明: 本分支实现Canvas绘图引擎与前端UI
